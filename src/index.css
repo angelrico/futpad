@@ -1,0 +1,41 @@
+@import 'tailwindcss';
+
+/* Identidad visual de Futpad (paleta validada WCAG AA, ver mockups/README.md) */
+@theme {
+  /* Marca */
+  --color-cesped-50: #f1f8f3;
+  --color-cesped-100: #dcefe2;
+  --color-cesped-200: #b9dfc5;
+  --color-cesped-500: #2f8f4e;
+  --color-cesped-600: #25763f;
+  --color-cesped-700: #1d5e33;
+  --color-cesped-900: #0f2e1b;
+
+  /* Destacado: el 500 solo como FONDO; para texto ámbar sobre claro, el 700 */
+  --color-destacado-50: #fff7e3;
+  --color-destacado-500: #f5b72e;
+  --color-destacado-700: #8a5a00;
+
+  /* Neutros */
+  --color-tiza: #fbfbf7;
+  --color-tinta: #13261a;
+  --color-tenue: #4b5d51;
+  --color-linea: #d5e2d8;
+  --color-peligro: #b91c1c;
+
+  /* Fichas (colores por defecto) */
+  --color-propio: #2563eb;
+  --color-rival: #c62f2f;
+  --color-portero: #f4c542;
+  --color-portero-rival: #9333ea;
+
+  /* Tipografía */
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Barlow Condensed', 'Arial Narrow', ui-sans-serif, sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-tiza font-sans text-tinta antialiased;
+  }
+}
