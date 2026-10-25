@@ -1,4 +1,4 @@
-import type { Fondo } from '../types/fondo'
+import type { Fondo } from '../types/pizarra'
 import fondoEntero from '../assets/fondos/full.svg'
 import fondoMedio from '../assets/fondos/half.svg'
 import fondoCorner from '../assets/fondos/corner.svg'

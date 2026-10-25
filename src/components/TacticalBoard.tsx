@@ -3,16 +3,16 @@ import { Image as KonvaImage, Layer, Stage } from 'react-konva'
 
 import { useTamanoContenedor } from '../hooks/useTamanoContenedor'
 import { encajarCampo } from '../lib/campo'
-import type { Fondo } from '../types/fondo'
+import type { Fondo } from '../types/pizarra'
 import { FONDOS } from '../lib/fondos'
 
 function TacticalBoard() {
   const { ref: mainRef, ancho, alto } = useTamanoContenedor()
 
   const fondo: Fondo = 'corner'
-  const datosFoto = FONDOS[fondo]
-  const [imagen] = useImage(datosFoto.imagen)
-  const { ancho: anchoCampo, alto: altoCampo } = encajarCampo(ancho, alto, datosFoto.proporcion)
+  const datosFondo = FONDOS[fondo]
+  const [imagen] = useImage(datosFondo.imagen)
+  const { ancho: anchoCampo, alto: altoCampo } = encajarCampo(ancho, alto, datosFondo.proporcion)
 
   return (
     <main
