@@ -1,16 +1,31 @@
 import { Circle, Group, Text } from 'react-konva'
 import { colorDorsal, RADIO_FICHA } from '../lib/fichas'
+import { limitarMovimiento } from '../lib/coordenadas'
 
 interface PlayerMarkerProps {
   x: number
   y: number
   dorsal: number
   color: string
+  anchoCampo: number
+  altoCampo: number
+  onMover: (x: number, y: number) => void // posiciona al soltar en pixeles
 }
 
-function PlayerMarker({ x, y, dorsal, color }: PlayerMarkerProps) {
+function PlayerMarker({ x, y, dorsal, color, anchoCampo, altoCampo, onMover }: PlayerMarkerProps) {
   return (
-    <Group x={x} y={y}>
+    <Group
+      x={x}
+      y={y}
+      draggable
+      dragBoundFunc={(pos) => {
+        return limitarMovimiento(pos.x, pos.y, anchoCampo, altoCampo)
+      }}
+      onDragEnd={(e) => {
+        const { x, y } = e.target.position()
+        onMover(x, y)
+      }}
+    >
       <Circle radius={RADIO_FICHA} fill={color} stroke="white" strokeWidth={2} />
       <Text
         text={dorsal.toString()}

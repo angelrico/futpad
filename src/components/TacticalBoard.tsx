@@ -10,7 +10,7 @@ import PlayerMarker from './PlayerMarker'
 import { FONDOS } from '../lib/fondos'
 import { encajarCampo } from '../lib/campo'
 import { COLORES_FICHA } from '../lib/fichas'
-import { pasarAPixeles } from '../lib/coordenadas'
+import { pasarAPixeles, pasarANormalizado } from '../lib/coordenadas'
 
 const FICHAS_PRUEBA: Ficha[] = [
   {
@@ -62,11 +62,18 @@ function TacticalBoard() {
   const [imagen] = useImage(datosFondo.imagen)
   const { ancho: anchoCampo, alto: altoCampo } = encajarCampo(ancho, alto, datosFondo.proporcion)
 
-  const [fichas] = useState<Ficha[]>(FICHAS_PRUEBA)
+  const [fichas, setFichas] = useState<Ficha[]>(FICHAS_PRUEBA)
+
+  const moverFicha = (id: string, xPx: number, yPx: number) => {
+    const { x, y } = pasarANormalizado(xPx, yPx, anchoCampo, altoCampo)
+    setFichas((anteriores) =>
+      anteriores.map((ficha) => (ficha.id === id ? { ...ficha, x, y } : ficha)),
+    )
+  }
 
   return (
     <main
-      className="flex min-h-0 min-w-0 items-center justify-center overflow-hidden p-4 [grid-area:main]"
+      className="flex min-h-0 min-w-0 touch-none items-center justify-center overflow-hidden p-4 [grid-area:main]"
       ref={mainRef}
     >
       <Stage width={anchoCampo} height={altoCampo}>
@@ -83,6 +90,9 @@ function TacticalBoard() {
                 y={yPx}
                 dorsal={ficha.dorsal}
                 color={ficha.color}
+                anchoCampo={anchoCampo}
+                altoCampo={altoCampo}
+                onMover={(x, y) => moverFicha(ficha.id, x, y)}
               />
             )
           })}
