@@ -1,5 +1,4 @@
 import useImage from 'use-image'
-import { useState } from 'react'
 import { Image as KonvaImage, Layer, Stage } from 'react-konva'
 
 import { useTamanoContenedor } from '../hooks/useTamanoContenedor'
@@ -9,66 +8,23 @@ import type { Ficha, Fondo } from '../types/pizarra'
 import PlayerMarker from './PlayerMarker'
 import { FONDOS } from '../lib/fondos'
 import { encajarCampo } from '../lib/campo'
-import { COLORES_FICHA } from '../lib/fichas'
 import { pasarAPixeles, pasarANormalizado } from '../lib/coordenadas'
 
-const FICHAS_PRUEBA: Ficha[] = [
-  {
-    id: '1',
-    equipo: 'propio',
-    rol: 'campo',
-    x: 0.2,
-    y: 0.3,
-    color: COLORES_FICHA.propio.campo,
-    jugadorId: null,
-    dorsal: 9,
-  },
-  {
-    id: '2',
-    equipo: 'propio',
-    rol: 'portero',
-    x: 0.1,
-    y: 0.5,
-    color: COLORES_FICHA.propio.portero,
-    jugadorId: null,
-    dorsal: 1,
-  },
-  {
-    id: '3',
-    equipo: 'rival',
-    rol: 'campo',
-    x: 0.7,
-    y: 0.2,
-    color: COLORES_FICHA.rival.campo,
-    jugadorId: null,
-    dorsal: 7,
-  },
-  {
-    id: '4',
-    equipo: 'rival',
-    rol: 'portero',
-    x: 0.8,
-    y: 0.4,
-    color: COLORES_FICHA.rival.portero,
-    jugadorId: null,
-    dorsal: 1,
-  },
-]
+interface TacticalBoardProps {
+  fondo: Fondo
+  fichas: Ficha[]
+  onMoverFicha: (id: string, x: number, y: number) => void
+}
 
-function TacticalBoard() {
+function TacticalBoard({ fondo, fichas, onMoverFicha }: TacticalBoardProps) {
   const { ref: mainRef, ancho, alto } = useTamanoContenedor()
-  const fondo: Fondo = 'corner'
   const datosFondo = FONDOS[fondo]
   const [imagen] = useImage(datosFondo.imagen)
   const { ancho: anchoCampo, alto: altoCampo } = encajarCampo(ancho, alto, datosFondo.proporcion)
 
-  const [fichas, setFichas] = useState<Ficha[]>(FICHAS_PRUEBA)
-
-  const moverFicha = (id: string, xPx: number, yPx: number) => {
+  const soltarFicha = (id: string, xPx: number, yPx: number) => {
     const { x, y } = pasarANormalizado(xPx, yPx, anchoCampo, altoCampo)
-    setFichas((anteriores) =>
-      anteriores.map((ficha) => (ficha.id === id ? { ...ficha, x, y } : ficha)),
-    )
+    onMoverFicha(id, x, y)
   }
 
   return (
@@ -92,7 +48,7 @@ function TacticalBoard() {
                 color={ficha.color}
                 anchoCampo={anchoCampo}
                 altoCampo={altoCampo}
-                onMover={(x, y) => moverFicha(ficha.id, x, y)}
+                onMover={(x, y) => soltarFicha(ficha.id, x, y)}
               />
             )
           })}
