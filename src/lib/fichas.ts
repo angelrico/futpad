@@ -1,3 +1,5 @@
+import type { Equipo, Rol } from '../types/pizarra'
+
 export const RADIO_FICHA = 22
 
 // Mismos valores que --color-tinta y blanco en index.css (Konva no puede leer clases de Tailwind)
@@ -10,4 +12,9 @@ export function colorDorsal(color: string): string {
   const b = parseInt(color.slice(5, 7), 16)
   const brillo = 0.299 * r + 0.587 * g + 0.114 * b
   return brillo < 150 ? COLOR_DORSAL_CLARO : COLOR_DORSAL_OSCURO
+}
+
+export const COLORES_FICHA: Record<Equipo, Record<Rol, string>> = {
+  propio: { campo: '#2563eb', portero: '#f4c542' },
+  rival: { campo: '#c62f2f', portero: '#9333ea' },
 }

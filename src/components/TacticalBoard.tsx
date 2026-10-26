@@ -1,19 +1,68 @@
 import useImage from 'use-image'
+import { useState } from 'react'
 import { Image as KonvaImage, Layer, Stage } from 'react-konva'
 
 import { useTamanoContenedor } from '../hooks/useTamanoContenedor'
-import { encajarCampo } from '../lib/campo'
-import type { Fondo } from '../types/pizarra'
-import { FONDOS } from '../lib/fondos'
+
+import type { Ficha, Fondo } from '../types/pizarra'
+
 import PlayerMarker from './PlayerMarker'
+import { FONDOS } from '../lib/fondos'
+import { encajarCampo } from '../lib/campo'
+import { COLORES_FICHA } from '../lib/fichas'
+import { pasarAPixeles } from '../lib/coordenadas'
+
+const FICHAS_PRUEBA: Ficha[] = [
+  {
+    id: '1',
+    equipo: 'propio',
+    rol: 'campo',
+    x: 0.2,
+    y: 0.3,
+    color: COLORES_FICHA.propio.campo,
+    jugadorId: null,
+    dorsal: 9,
+  },
+  {
+    id: '2',
+    equipo: 'propio',
+    rol: 'portero',
+    x: 0.1,
+    y: 0.5,
+    color: COLORES_FICHA.propio.portero,
+    jugadorId: null,
+    dorsal: 1,
+  },
+  {
+    id: '3',
+    equipo: 'rival',
+    rol: 'campo',
+    x: 0.7,
+    y: 0.2,
+    color: COLORES_FICHA.rival.campo,
+    jugadorId: null,
+    dorsal: 7,
+  },
+  {
+    id: '4',
+    equipo: 'rival',
+    rol: 'portero',
+    x: 0.8,
+    y: 0.4,
+    color: COLORES_FICHA.rival.portero,
+    jugadorId: null,
+    dorsal: 1,
+  },
+]
 
 function TacticalBoard() {
   const { ref: mainRef, ancho, alto } = useTamanoContenedor()
-
   const fondo: Fondo = 'corner'
   const datosFondo = FONDOS[fondo]
   const [imagen] = useImage(datosFondo.imagen)
   const { ancho: anchoCampo, alto: altoCampo } = encajarCampo(ancho, alto, datosFondo.proporcion)
+
+  const [fichas] = useState<Ficha[]>(FICHAS_PRUEBA)
 
   return (
     <main
@@ -25,10 +74,18 @@ function TacticalBoard() {
           <KonvaImage image={imagen} width={anchoCampo} height={altoCampo} />
         </Layer>
         <Layer>
-          <PlayerMarker x={100} y={100} dorsal={10} color="#c62f2f" />
-          <PlayerMarker x={400} y={500} dorsal={1} color="#2563eb" />
-          <PlayerMarker x={700} y={200} dorsal={56} color="#f4c542" />
-          <PlayerMarker x={200} y={200} dorsal={9} color="#9333ea" />
+          {fichas.map((ficha) => {
+            const { x: xPx, y: yPx } = pasarAPixeles(ficha.x, ficha.y, anchoCampo, altoCampo)
+            return (
+              <PlayerMarker
+                key={ficha.id}
+                x={xPx}
+                y={yPx}
+                dorsal={ficha.dorsal}
+                color={ficha.color}
+              />
+            )
+          })}
         </Layer>
       </Stage>
     </main>

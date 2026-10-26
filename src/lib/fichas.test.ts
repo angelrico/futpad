@@ -6,7 +6,7 @@ describe('colorDorsal', () => {
     expect(colorDorsal('#2563eb')).toBe(COLOR_DORSAL_CLARO)
   })
 
-  it('deberia ser texto negro para color amarillo', () => {
+  it('deberia ser texto oscuro para color amarillo', () => {
     expect(colorDorsal('#f4c542')).toBe(COLOR_DORSAL_OSCURO)
   })
 
@@ -18,7 +18,7 @@ describe('colorDorsal', () => {
     expect(colorDorsal('#9333ea')).toBe(COLOR_DORSAL_CLARO)
   })
 
-  it('deberia ser texto blanco para blanco', () => {
+  it('deberia ser texto oscuro para blanco', () => {
     expect(colorDorsal('#ffffff')).toBe(COLOR_DORSAL_OSCURO)
   })
 
