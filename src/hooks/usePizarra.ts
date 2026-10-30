@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { COLORES_FICHA } from '../lib/fichas'
-import type { Ficha, Fondo } from '../types/pizarra'
+import { COLORES_FICHA, crearFicha } from '../lib/fichas'
+import type { DatosNuevaFicha, Ficha, Fondo } from '../types/pizarra'
 
 const FICHAS_PRUEBA: Ficha[] = [
   {
@@ -49,11 +49,16 @@ export function usePizarra() {
   const [fichas, setFichas] = useState<Ficha[]>(FICHAS_PRUEBA)
   const [fondo, setFondo] = useState<Fondo>('full')
 
+  const agregarFicha = (datos: DatosNuevaFicha) => {
+    const nueva = crearFicha(datos)
+    setFichas((anteriores) => [...anteriores, nueva])
+  }
+
   const moverFicha = (id: string, x: number, y: number) => {
     setFichas((anteriores) =>
       anteriores.map((ficha) => (ficha.id === id ? { ...ficha, x, y } : ficha)),
     )
   }
 
-  return { fondo, fichas, moverFicha, cambiarFondo: setFondo }
+  return { fondo, fichas, moverFicha, cambiarFondo: setFondo, agregarFicha }
 }

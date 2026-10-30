@@ -1,7 +1,13 @@
 import { describe, it, expect } from 'vitest'
-import { colorDorsal, COLOR_DORSAL_CLARO, COLOR_DORSAL_OSCURO } from './fichas'
+import {
+  colorDorsal,
+  crearFicha,
+  COLOR_DORSAL_CLARO,
+  COLOR_DORSAL_OSCURO,
+  COLORES_FICHA,
+} from './fichas'
 
-describe('colorDorsal', () => {
+describe('fichas', () => {
   it('deberia ser texto blanco para azul', () => {
     expect(colorDorsal('#2563eb')).toBe(COLOR_DORSAL_CLARO)
   })
@@ -24,5 +30,14 @@ describe('colorDorsal', () => {
 
   it('deberia ser texto blanco para negro', () => {
     expect(colorDorsal('#000000')).toBe(COLOR_DORSAL_CLARO)
+  })
+
+  it('crea una ficha libre en el centro con el color por defecto', () => {
+    const ficha = crearFicha({ equipo: 'rival', rol: 'portero', dorsal: 1 })
+    expect(ficha.color).toBe(COLORES_FICHA.rival.portero)
+    expect(ficha.jugadorId).toBeNull()
+    expect(ficha.x).toBe(0.5)
+    expect(ficha.y).toBe(0.5)
+    expect(ficha.dorsal).toBe(1)
   })
 })

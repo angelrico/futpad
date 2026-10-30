@@ -1,4 +1,4 @@
-import type { Equipo, Rol } from '../types/pizarra'
+import type { Equipo, Ficha, Rol, DatosNuevaFicha } from '../types/pizarra'
 
 export const RADIO_FICHA = 22
 
@@ -17,4 +17,17 @@ export function colorDorsal(color: string): string {
 export const COLORES_FICHA: Record<Equipo, Record<Rol, string>> = {
   propio: { campo: '#2563eb', portero: '#f4c542' },
   rival: { campo: '#c62f2f', portero: '#9333ea' },
+}
+
+export function crearFicha({ equipo, rol, dorsal }: DatosNuevaFicha): Ficha {
+  return {
+    id: crypto.randomUUID(),
+    equipo,
+    rol,
+    x: 0.5,
+    y: 0.5,
+    color: COLORES_FICHA[equipo][rol],
+    jugadorId: null,
+    dorsal,
+  }
 }

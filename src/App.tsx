@@ -4,13 +4,13 @@ import TacticalBoard from './components/TacticalBoard'
 import { usePizarra } from './hooks/usePizarra'
 
 function App() {
-  const { fondo, fichas, moverFicha } = usePizarra()
+  const { fondo, fichas, moverFicha, agregarFicha } = usePizarra()
 
   return (
     <div className="grid h-dvh grid-cols-[320px_1fr] grid-rows-[auto_1fr] [grid-template-areas:'header_header'_'panel_main']">
       <Header />
 
-      <SidePanel />
+      <SidePanel onAgregarFicha={agregarFicha} />
 
       <TacticalBoard fondo={fondo} fichas={fichas} onMoverFicha={moverFicha} />
     </div>

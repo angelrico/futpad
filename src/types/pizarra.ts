@@ -15,3 +15,5 @@ export interface Ficha {
   x: number // 0–1
   y: number // 0–1
 }
+
+export type DatosNuevaFicha = Pick<Ficha, 'equipo' | 'rol' | 'dorsal'>
