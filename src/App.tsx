@@ -6,13 +6,17 @@ import { usePlantilla } from './hooks/usePlantilla'
 
 function App() {
   const { fondo, fichas, moverFicha, agregarFicha } = usePizarra()
-  const { jugadores } = usePlantilla()
+  const { jugadores, eliminarJugador } = usePlantilla()
 
   return (
     <div className="grid h-dvh grid-cols-[320px_1fr] grid-rows-[auto_1fr] [grid-template-areas:'header_header'_'panel_main']">
       <Header />
 
-      <SidePanel jugadores={jugadores} onAgregarFicha={agregarFicha} />
+      <SidePanel
+        jugadores={jugadores}
+        onAgregarFicha={agregarFicha}
+        onEliminarJugador={eliminarJugador}
+      />
 
       <TacticalBoard fondo={fondo} fichas={fichas} onMoverFicha={moverFicha} />
     </div>
