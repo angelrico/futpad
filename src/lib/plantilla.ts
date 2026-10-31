@@ -1,4 +1,4 @@
-import type { ErroresJugador, Jugador, JugadorFormulario } from '../types/plantilla'
+import type { DatosJugador, ErroresJugador, Jugador, JugadorFormulario } from '../types/plantilla'
 
 export function validarJugador(
   datos: Pick<JugadorFormulario, 'nombre' | 'dorsal'>,
@@ -29,4 +29,11 @@ export function validarJugador(
   }
 
   return errores
+}
+
+export function crearJugador(datos: DatosJugador): Jugador {
+  return {
+    id: crypto.randomUUID(),
+    ...datos,
+  }
 }

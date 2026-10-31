@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { validarJugador } from './plantilla'
+import { crearJugador, validarJugador } from './plantilla'
 
 describe('validarJugador', () => {
   it('debería dar errores si no hay datos en el formulario', () => {
@@ -69,5 +69,19 @@ describe('validarJugador', () => {
   it('debería no dar errores con datos válidos', () => {
     const errores = validarJugador({ nombre: 'Jugador', dorsal: '10' }, [])
     expect(errores).toEqual({})
+  })
+})
+
+describe('crearJugador', () => {
+  it('debería conservar los datos del jugador', () => {
+    const datos = { nombre: 'Jugador', dorsal: 10, esPortero: false }
+    const jugador = crearJugador(datos)
+    expect(jugador).toMatchObject(datos)
+  })
+
+  it('debería generar ids distintos', () => {
+    const jugador1 = crearJugador({ nombre: 'Jugador 1', dorsal: 10, esPortero: false })
+    const jugador2 = crearJugador({ nombre: 'Jugador 2', dorsal: 11, esPortero: false })
+    expect(jugador1.id).not.toBe(jugador2.id)
   })
 })
