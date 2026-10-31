@@ -5,15 +5,16 @@ interface SquadListProps {
   jugadores: Jugador[]
   onEditar: (jugador: Jugador) => void
   onEliminar: (id: string) => void
+  onNuevo: () => void
 }
 
-function SquadList({ jugadores, onEliminar, onEditar }: SquadListProps) {
+function SquadList({ jugadores, onEliminar, onEditar, onNuevo }: SquadListProps) {
   return (
     <>
       <div className="mb-2 flex items-center gap-2 text-sm">
         <h2 className="tracking-wide uppercase">Plantilla</h2>
         <span className="pl-1 text-tenue">{jugadores.length} jugadores</span>
-        <button className="ml-auto text-sm text-cesped-700" type="button">
+        <button className="ml-auto text-sm text-cesped-700" type="button" onClick={onNuevo}>
           + Nuevo
         </button>
       </div>
@@ -30,14 +31,12 @@ function SquadList({ jugadores, onEliminar, onEditar }: SquadListProps) {
                 >
                   {jugador.dorsal}
                 </span>
-                <span>{jugador.nombre}</span>
-                <span>
-                  {jugador.esPortero && (
-                    <span className="ml-2 rounded-full bg-destacado-50 px-2 text-xs font-semibold text-destacado-700">
-                      Portero
-                    </span>
-                  )}
-                </span>
+                <span className="min-w-0 truncate">{jugador.nombre}</span>
+                {jugador.esPortero && (
+                  <span className="rounded-full bg-destacado-50 px-2 text-xs font-semibold text-destacado-700">
+                    Portero
+                  </span>
+                )}
                 <div className="ml-auto flex gap-1">
                   <button
                     type="button"
@@ -50,7 +49,7 @@ function SquadList({ jugadores, onEliminar, onEditar }: SquadListProps) {
                   <button
                     type="button"
                     aria-label={`Eliminar a ${jugador.nombre}`}
-                    className="ml-2 text-tenue focus-visible:outline-2"
+                    className="text-tenue focus-visible:outline-2"
                     onClick={() => onEliminar(jugador.id)}
                   >
                     <Trash2 size={18} />
