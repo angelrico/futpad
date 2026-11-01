@@ -1,3 +1,5 @@
+import type { Jugador } from './plantilla'
+
 export type Fondo = 'full' | 'half' | 'corner'
 
 export type Equipo = 'propio' | 'rival'
@@ -17,3 +19,18 @@ export interface Ficha {
 }
 
 export type DatosNuevaFicha = Pick<Ficha, 'equipo' | 'rol' | 'dorsal'>
+
+export interface Pizarra {
+  id: string
+  nombre: string
+  fondo: Fondo
+  fichas: Ficha[]
+  creadaEn: string // ISO 8601
+  actualizadaEn: string
+}
+
+export interface DatosGuardados {
+  version: 1
+  plantilla: Jugador[]
+  pizarras: Pizarra[]
+}
