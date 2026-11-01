@@ -82,7 +82,7 @@ function PlayerForm({ jugador, onCerrar, jugadores, onGuardar }: PlayerFormProps
               onChange={(e) => setValores((v) => ({ ...v, nombre: e.target.value }))}
               aria-invalid={errores.nombre ? true : undefined}
               aria-describedby={errores.nombre ? `${id}-nombre-error` : undefined}
-              className={`${CLASE_CAMPO}`}
+              className={CLASE_CAMPO}
             />
             {errores.nombre && (
               <p id={`${id}-nombre-error`} className="text-sm text-peligro">
@@ -104,7 +104,7 @@ function PlayerForm({ jugador, onCerrar, jugadores, onGuardar }: PlayerFormProps
               onChange={(e) => setValores((v) => ({ ...v, dorsal: e.target.value }))}
               aria-invalid={errores.dorsal ? true : undefined}
               aria-describedby={errores.dorsal ? `${id}-dorsal-error` : undefined}
-              className={`${CLASE_CAMPO}`}
+              className={CLASE_CAMPO}
             />
             {errores.dorsal && (
               <p id={`${id}-dorsal-error`} className="text-sm text-peligro">

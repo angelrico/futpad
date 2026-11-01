@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { COLORES_FICHA, crearFicha } from '../lib/fichas'
+import { COLORES_FICHA, crearFicha, crearFichaDeJugador } from '../lib/fichas'
 import type { DatosNuevaFicha, Ficha, Fondo } from '../types/pizarra'
+import type { Jugador } from '../types/plantilla'
 
 const FICHAS_PRUEBA: Ficha[] = [
   {
@@ -60,5 +61,13 @@ export function usePizarra() {
     )
   }
 
-  return { fondo, fichas, moverFicha, cambiarFondo: setFondo, agregarFicha }
+  const colocarJugador = (jugador: Jugador) => {
+    setFichas((anteriores) =>
+      anteriores.some((ficha) => ficha.jugadorId === jugador.id)
+        ? anteriores
+        : [...anteriores, crearFichaDeJugador(jugador)],
+    )
+  }
+
+  return { fondo, fichas, moverFicha, cambiarFondo: setFondo, agregarFicha, colocarJugador }
 }

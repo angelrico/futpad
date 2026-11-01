@@ -5,6 +5,7 @@ import {
   COLOR_DORSAL_CLARO,
   COLOR_DORSAL_OSCURO,
   COLORES_FICHA,
+  crearFichaDeJugador,
 } from './fichas'
 
 describe('fichas', () => {
@@ -39,5 +40,35 @@ describe('fichas', () => {
     expect(ficha.x).toBe(0.5)
     expect(ficha.y).toBe(0.5)
     expect(ficha.dorsal).toBe(1)
+  })
+
+  it('debería coincidir jugadorID con id si copio nombre y dorsal', () => {
+    const jugador = { id: '123', nombre: 'Juan', dorsal: 10, esPortero: false }
+    const ficha = crearFichaDeJugador(jugador)
+    expect(ficha.dorsal).toBe(jugador.dorsal)
+    expect(ficha.nombre).toBe(jugador.nombre)
+    expect(ficha.jugadorId).toBe(jugador.id)
+  })
+
+  it('deberia tener rol portero y color portero propio si esPortero', () => {
+    const jugador = { id: '456', nombre: 'Pedro', dorsal: 1, esPortero: true }
+    const ficha = crearFichaDeJugador(jugador)
+    expect(ficha.rol).toBe('portero')
+    expect(ficha.equipo).toBe('propio')
+    expect(ficha.color).toBe(COLORES_FICHA.propio.portero)
+  })
+
+  it('debería tener rol campo y equipo propio si no es portero', () => {
+    const jugador = { id: '789', nombre: 'Luis', dorsal: 8, esPortero: false }
+    const ficha = crearFichaDeJugador(jugador)
+    expect(ficha.rol).toBe('campo')
+    expect(ficha.equipo).toBe('propio')
+    expect(ficha.color).toBe(COLORES_FICHA.propio.campo)
+  })
+
+  it('debería generar un id diferente al id del jugador', () => {
+    const jugador = { id: '123', nombre: 'Juan', dorsal: 10, esPortero: false }
+    const ficha = crearFichaDeJugador(jugador)
+    expect(ficha.id).not.toBe(jugador.id)
   })
 })

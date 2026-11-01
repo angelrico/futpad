@@ -1,4 +1,5 @@
 import type { Equipo, Ficha, Rol, DatosNuevaFicha } from '../types/pizarra'
+import type { Jugador } from '../types/plantilla'
 
 export const RADIO_FICHA = 22
 
@@ -29,5 +30,17 @@ export function crearFicha({ equipo, rol, dorsal }: DatosNuevaFicha): Ficha {
     color: COLORES_FICHA[equipo][rol],
     jugadorId: null,
     dorsal,
+  }
+}
+
+export function crearFichaDeJugador(jugador: Jugador): Ficha {
+  return {
+    ...crearFicha({
+      equipo: 'propio',
+      rol: jugador.esPortero ? 'portero' : 'campo',
+      dorsal: jugador.dorsal,
+    }),
+    jugadorId: jugador.id,
+    nombre: jugador.nombre,
   }
 }
