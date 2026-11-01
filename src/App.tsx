@@ -5,8 +5,10 @@ import { usePizarra } from './hooks/usePizarra'
 import { usePlantilla } from './hooks/usePlantilla'
 
 function App() {
-  const { fondo, fichas, moverFicha, agregarFicha } = usePizarra()
+  const { fondo, fichas, moverFicha, agregarFicha, colocarJugador } = usePizarra()
   const { jugadores, eliminarJugador, agregarJugador, editarJugador } = usePlantilla()
+
+  const idsEnCampo = new Set(fichas.flatMap((ficha) => (ficha.jugadorId ? [ficha.jugadorId] : [])))
 
   return (
     <div className="grid h-dvh grid-cols-[320px_1fr] grid-rows-[auto_1fr] [grid-template-areas:'header_header'_'panel_main']">
@@ -16,8 +18,10 @@ function App() {
         jugadores={jugadores}
         onAgregarFicha={agregarFicha}
         onEliminarJugador={eliminarJugador}
+        idsEnCampo={idsEnCampo}
         onAgregarJugador={agregarJugador}
         onEditarJugador={editarJugador}
+        onColocarJugador={colocarJugador}
       />
 
       <TacticalBoard fondo={fondo} fichas={fichas} onMoverFicha={moverFicha} />

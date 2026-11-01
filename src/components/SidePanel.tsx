@@ -8,17 +8,21 @@ import PlayerForm from './PlayerForm'
 interface SidePanelProps {
   onAgregarFicha: (datos: DatosNuevaFicha) => void
   jugadores: Jugador[]
+  idsEnCampo: ReadonlySet<string>
   onEliminarJugador: (id: string) => void
   onAgregarJugador: (datos: DatosJugador) => void
   onEditarJugador: (id: string, datos: DatosJugador) => void
+  onColocarJugador: (jugador: Jugador) => void
 }
 
 function SidePanel({
   onAgregarFicha,
   jugadores,
+  idsEnCampo,
   onEliminarJugador,
   onAgregarJugador,
   onEditarJugador,
+  onColocarJugador,
 }: SidePanelProps) {
   const [formularioAbierto, setFormularioAbierto] = useState(false)
   const [jugadorEditando, setJugadorEditando] = useState<Jugador | null>(null)
@@ -49,9 +53,11 @@ function SidePanel({
     <aside className="min-h-0 overflow-y-auto border-r border-linea bg-cesped-50 p-4 [grid-area:panel]">
       <SquadList
         jugadores={jugadores}
+        idsEnCampo={idsEnCampo}
         onEliminar={onEliminarJugador}
         onEditar={abrirEdicion}
         onNuevo={abrirAlta}
+        onAgregarAlCampo={onColocarJugador}
       />
       {formularioAbierto && (
         <PlayerForm
