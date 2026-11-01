@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 import type { DatosNuevaFicha } from '../types/pizarra'
-import type { Jugador } from '../types/plantilla'
+import type { Jugador, DatosJugador } from '../types/plantilla'
 import SquadList from './SquadList'
 import PlayerForm from './PlayerForm'
 
@@ -9,9 +9,17 @@ interface SidePanelProps {
   onAgregarFicha: (datos: DatosNuevaFicha) => void
   jugadores: Jugador[]
   onEliminarJugador: (id: string) => void
+  onAgregarJugador: (datos: DatosJugador) => void
+  onEditarJugador: (id: string, datos: DatosJugador) => void
 }
 
-function SidePanel({ onAgregarFicha, jugadores, onEliminarJugador }: SidePanelProps) {
+function SidePanel({
+  onAgregarFicha,
+  jugadores,
+  onEliminarJugador,
+  onAgregarJugador,
+  onEditarJugador,
+}: SidePanelProps) {
   const [formularioAbierto, setFormularioAbierto] = useState(false)
   const [jugadorEditando, setJugadorEditando] = useState<Jugador | null>(null)
 
@@ -29,6 +37,14 @@ function SidePanel({ onAgregarFicha, jugadores, onEliminarJugador }: SidePanelPr
     setFormularioAbierto(false)
   }
 
+  const guardarJugador = (datos: DatosJugador) => {
+    if (jugadorEditando) {
+      onEditarJugador(jugadorEditando.id, datos)
+    } else {
+      onAgregarJugador(datos)
+    }
+  }
+
   return (
     <aside className="min-h-0 overflow-y-auto border-r border-linea bg-cesped-50 p-4 [grid-area:panel]">
       <SquadList
@@ -37,7 +53,14 @@ function SidePanel({ onAgregarFicha, jugadores, onEliminarJugador }: SidePanelPr
         onEditar={abrirEdicion}
         onNuevo={abrirAlta}
       />
-      {formularioAbierto && <PlayerForm jugador={jugadorEditando} onCerrar={cerrarFormulario} />}
+      {formularioAbierto && (
+        <PlayerForm
+          jugador={jugadorEditando}
+          onCerrar={cerrarFormulario}
+          jugadores={jugadores}
+          onGuardar={guardarJugador}
+        />
+      )}
       <button
         type="button"
         className="w-full rounded-xl border-2 border-dashed border-cesped-700 py-3 font-semibold text-cesped-700"

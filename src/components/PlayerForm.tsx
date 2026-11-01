@@ -1,13 +1,16 @@
 import { useEffect, useRef, useId, useState } from 'react'
-import type { Jugador, JugadorFormulario } from '../types/plantilla'
+import type { DatosJugador, Jugador, JugadorFormulario, ErroresJugador } from '../types/plantilla'
 import { X } from 'lucide-react'
+import { validarJugador } from '../lib/plantilla'
 
 const CLASE_CAMPO =
-  'w-full min-w-0 rounded-lg border border-linea px-3 py-2 focus-visible:outline-2 focus-visible:outline-cesped-700'
+  'w-full min-w-0 rounded-lg border border-linea px-3 py-2 focus-visible:outline-2 focus-visible:outline-cesped-700 aria-[invalid=true]:border-peligro'
 
 interface PlayerFormProps {
   jugador: Jugador | null
+  jugadores: Jugador[]
   onCerrar: () => void
+  onGuardar: (datos: DatosJugador) => void
 }
 
 function valoresIniciales(jugador: Jugador | null): JugadorFormulario {
@@ -17,14 +20,27 @@ function valoresIniciales(jugador: Jugador | null): JugadorFormulario {
   return { nombre: jugador.nombre, dorsal: String(jugador.dorsal), esPortero: jugador.esPortero }
 }
 
-function PlayerForm({ jugador, onCerrar }: PlayerFormProps) {
+function PlayerForm({ jugador, onCerrar, jugadores, onGuardar }: PlayerFormProps) {
   const dialogoRef = useRef<HTMLDialogElement>(null)
   const [valores, setValores] = useState<JugadorFormulario>(() => valoresIniciales(jugador))
+  const [errores, setErrores] = useState<ErroresJugador>({})
   const id = useId()
 
   useEffect(() => {
     dialogoRef.current?.showModal()
   }, [])
+
+  const guardar = () => {
+    const erroresValidacion = validarJugador(valores, jugadores, jugador?.id)
+    setErrores(erroresValidacion)
+    if (Object.keys(erroresValidacion).length > 0) return
+    onGuardar({
+      nombre: valores.nombre.trim(),
+      dorsal: Number(valores.dorsal),
+      esPortero: valores.esPortero,
+    })
+    dialogoRef.current?.close()
+  }
 
   return (
     <dialog
@@ -50,7 +66,7 @@ function PlayerForm({ jugador, onCerrar }: PlayerFormProps) {
         noValidate
         onSubmit={(e) => {
           e.preventDefault()
-          console.log(valores)
+          guardar()
         }}
         className="mt-4 flex flex-col gap-4"
       >
@@ -64,8 +80,15 @@ function PlayerForm({ jugador, onCerrar }: PlayerFormProps) {
               type="text"
               value={valores.nombre}
               onChange={(e) => setValores((v) => ({ ...v, nombre: e.target.value }))}
-              className={CLASE_CAMPO}
+              aria-invalid={errores.nombre ? true : undefined}
+              aria-describedby={errores.nombre ? `${id}-nombre-error` : undefined}
+              className={`${CLASE_CAMPO}`}
             />
+            {errores.nombre && (
+              <p id={`${id}-nombre-error`} className="text-sm text-peligro">
+                {errores.nombre}
+              </p>
+            )}
           </div>
           <div className="flex flex-col gap-1">
             <label htmlFor={`${id}-dorsal`} className="text-sm font-semibold text-cesped-900">
@@ -79,8 +102,15 @@ function PlayerForm({ jugador, onCerrar }: PlayerFormProps) {
               max={99}
               value={valores.dorsal}
               onChange={(e) => setValores((v) => ({ ...v, dorsal: e.target.value }))}
-              className={CLASE_CAMPO}
+              aria-invalid={errores.dorsal ? true : undefined}
+              aria-describedby={errores.dorsal ? `${id}-dorsal-error` : undefined}
+              className={`${CLASE_CAMPO}`}
             />
+            {errores.dorsal && (
+              <p id={`${id}-dorsal-error`} className="text-sm text-peligro">
+                {errores.dorsal}
+              </p>
+            )}
           </div>
         </div>
         <div className="flex items-center gap-2">
