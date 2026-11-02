@@ -1,16 +1,14 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import type { Jugador, DatosJugador } from '../types/plantilla'
 import { crearJugador } from '../lib/plantilla'
-
-const JUGADORES_PRUEBA: Jugador[] = [
-  { id: '1', nombre: 'Jugador 1', dorsal: 1, esPortero: true },
-  { id: '2', nombre: 'Jugador 2', dorsal: 2, esPortero: false },
-  { id: '3', nombre: 'Jugador 3', dorsal: 13, esPortero: true },
-  { id: '4', nombre: 'Jugador 4', dorsal: 4, esPortero: false },
-]
+import { cargarPlantilla, guardarPlantilla } from '../storage/repositorio'
 
 export function usePlantilla() {
-  const [jugadores, setJugadores] = useState<Jugador[]>(JUGADORES_PRUEBA)
+  const [jugadores, setJugadores] = useState<Jugador[]>(() => cargarPlantilla())
+
+  useEffect(() => {
+    guardarPlantilla(jugadores)
+  }, [jugadores])
 
   const agregarJugador = (datos: DatosJugador) => {
     const nuevo = crearJugador(datos)
