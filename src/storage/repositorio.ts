@@ -1,4 +1,5 @@
-import type { DatosGuardados } from '../types/pizarra'
+import type { DatosGuardados, Pizarra } from '../types/pizarra'
+import type { Jugador } from '../types/plantilla'
 
 export const CLAVE = 'futpad:datos'
 
@@ -37,4 +38,37 @@ function esDatosGuardados(valor: unknown): valor is DatosGuardados {
     'pizarras' in valor &&
     Array.isArray(valor.pizarras)
   )
+}
+
+export function cargarPlantilla(): Jugador[] {
+  const datos = cargarDatos()
+  return datos.plantilla
+}
+
+export function guardarPlantilla(plantilla: Jugador[]) {
+  const datos = cargarDatos()
+  datos.plantilla = plantilla
+  guardarDatos(datos)
+}
+
+export function listarPizarras(): Pizarra[] {
+  const datos = cargarDatos()
+  return datos.pizarras
+}
+
+export function guardarPizarra(pizarra: Pizarra) {
+  const datos = cargarDatos()
+  const existe = datos.pizarras.some((p) => p.id === pizarra.id)
+  if (existe) {
+    datos.pizarras = datos.pizarras.map((p) => (p.id === pizarra.id ? pizarra : p))
+  } else {
+    datos.pizarras = [...datos.pizarras, pizarra]
+  }
+  guardarDatos(datos)
+}
+
+export function eliminarPizarra(id: string) {
+  const datos = cargarDatos()
+  datos.pizarras = datos.pizarras.filter((p) => p.id !== id)
+  guardarDatos(datos)
 }
