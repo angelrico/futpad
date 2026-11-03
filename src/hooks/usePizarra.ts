@@ -42,6 +42,12 @@ export function usePizarra() {
     setPizarra(guardada)
   }
 
+  const nueva = (nombre: string, fondo: Fondo) => {
+    const creada = crearPizarra(nombre, fondo)
+    guardarPizarra(creada)
+    setPizarra(creada)
+  }
+
   return {
     fondo: pizarra.fondo,
     fichas: pizarra.fichas,
@@ -51,5 +57,6 @@ export function usePizarra() {
     agregarFicha,
     colocarJugador,
     guardar,
+    nueva,
   }
 }

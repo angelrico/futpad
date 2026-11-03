@@ -5,14 +5,15 @@ import { usePizarra } from './hooks/usePizarra'
 import { usePlantilla } from './hooks/usePlantilla'
 
 function App() {
-  const { fondo, fichas, pizarra, moverFicha, agregarFicha, colocarJugador, guardar } = usePizarra()
+  const { fondo, fichas, pizarra, moverFicha, agregarFicha, colocarJugador, guardar, nueva } =
+    usePizarra()
   const { jugadores, eliminarJugador, agregarJugador, editarJugador } = usePlantilla()
 
   const idsEnCampo = new Set(fichas.flatMap((ficha) => (ficha.jugadorId ? [ficha.jugadorId] : [])))
 
   return (
     <div className="grid h-dvh grid-cols-[320px_1fr] grid-rows-[auto_1fr] [grid-template-areas:'header_header'_'panel_main']">
-      <Header nombre={pizarra.nombre} onGuardar={guardar} />
+      <Header nombre={pizarra.nombre} onGuardar={guardar} onCrear={nueva} />
       <SidePanel
         jugadores={jugadores}
         onAgregarFicha={agregarFicha}

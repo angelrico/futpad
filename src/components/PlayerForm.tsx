@@ -2,9 +2,7 @@ import { useEffect, useRef, useId, useState } from 'react'
 import type { DatosJugador, Jugador, JugadorFormulario, ErroresJugador } from '../types/plantilla'
 import { X } from 'lucide-react'
 import { validarJugador } from '../lib/plantilla'
-
-const CLASE_CAMPO =
-  'w-full min-w-0 rounded-lg border border-linea px-3 py-2 focus-visible:outline-2 focus-visible:outline-cesped-700 aria-[invalid=true]:border-peligro'
+import { CLASE_CAMPO } from './estilos'
 
 interface PlayerFormProps {
   jugador: Jugador | null
