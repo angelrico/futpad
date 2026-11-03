@@ -1,73 +1,55 @@
 import { useState } from 'react'
-import { COLORES_FICHA, crearFicha, crearFichaDeJugador } from '../lib/fichas'
-import type { DatosNuevaFicha, Ficha, Fondo } from '../types/pizarra'
+import { crearFicha, crearFichaDeJugador } from '../lib/fichas'
+import type { DatosNuevaFicha, Fondo, Pizarra } from '../types/pizarra'
 import type { Jugador } from '../types/plantilla'
-
-const FICHAS_PRUEBA: Ficha[] = [
-  {
-    id: '1',
-    equipo: 'propio',
-    rol: 'campo',
-    x: 0.2,
-    y: 0.3,
-    color: COLORES_FICHA.propio.campo,
-    jugadorId: null,
-    dorsal: 9,
-  },
-  {
-    id: '2',
-    equipo: 'propio',
-    rol: 'portero',
-    x: 0.1,
-    y: 0.5,
-    color: COLORES_FICHA.propio.portero,
-    jugadorId: null,
-    dorsal: 1,
-  },
-  {
-    id: '3',
-    equipo: 'rival',
-    rol: 'campo',
-    x: 0.7,
-    y: 0.2,
-    color: COLORES_FICHA.rival.campo,
-    jugadorId: null,
-    dorsal: 7,
-  },
-  {
-    id: '4',
-    equipo: 'rival',
-    rol: 'portero',
-    x: 0.8,
-    y: 0.4,
-    color: COLORES_FICHA.rival.portero,
-    jugadorId: null,
-    dorsal: 1,
-  },
-]
+import { crearPizarra, ultimaActualizada } from '../lib/pizarras'
+import { listarPizarras, guardarPizarra } from '../storage/repositorio'
 
 export function usePizarra() {
-  const [fichas, setFichas] = useState<Ficha[]>(FICHAS_PRUEBA)
-  const [fondo, setFondo] = useState<Fondo>('full')
+  const [pizarra, setPizarra] = useState<Pizarra>(
+    () => ultimaActualizada(listarPizarras()) ?? crearPizarra('Mi primera pizarra', 'full'),
+  )
 
   const agregarFicha = (datos: DatosNuevaFicha) => {
     const nueva = crearFicha(datos)
-    setFichas((anteriores) => [...anteriores, nueva])
+    setPizarra((p) => ({
+      ...p,
+      fichas: [...p.fichas, nueva],
+    }))
   }
 
   const moverFicha = (id: string, x: number, y: number) => {
-    setFichas((anteriores) =>
-      anteriores.map((ficha) => (ficha.id === id ? { ...ficha, x, y } : ficha)),
-    )
+    setPizarra((p) => ({
+      ...p,
+      fichas: p.fichas.map((ficha) => (ficha.id === id ? { ...ficha, x, y } : ficha)),
+    }))
   }
 
   const colocarJugador = (jugador: Jugador) => {
-    setFichas((anteriores) =>
-      anteriores.some((ficha) => ficha.jugadorId === jugador.id)
-        ? anteriores
-        : [...anteriores, crearFichaDeJugador(jugador)],
+    const fichaNueva = crearFichaDeJugador(jugador)
+    setPizarra((p) =>
+      p.fichas.some((ficha) => ficha.jugadorId === jugador.id)
+        ? p
+        : { ...p, fichas: [...p.fichas, fichaNueva] },
     )
   }
 
-  return { fondo, fichas, moverFicha, cambiarFondo: setFondo, agregarFicha, colocarJugador }
+  const cambiarFondo = (fondo: Fondo) => setPizarra((p) => ({ ...p, fondo }))
+
+  const guardar = () => {
+    const guardada = { ...pizarra, actualizadaEn: new Date().toISOString() }
+    guardarPizarra(guardada)
+    setPizarra(guardada)
+  }
+
+  return {
+    fondo: pizarra.fondo,
+    fichas: pizarra.fichas,
+    pizarra,
+    moverFicha,
+    cambiarFondo,
+    agregarFicha,
+    colocarJugador,
+    guardar,
+  }
 }
