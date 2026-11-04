@@ -4,7 +4,9 @@ import {
   ultimaActualizada,
   ordenarPorActualizacion,
   pizarraInicial,
+  tieneCambios,
 } from './pizarras'
+import { crearFicha } from './fichas'
 
 describe('pizarras', () => {
   it('debería tener la misma fecha en creadaEn y actualizadaEn al crear una pizarra', () => {
@@ -56,5 +58,36 @@ describe('pizarras', () => {
     const result = pizarraInicial([])
     expect(result.nombre).toBe('Mi primera pizarra')
     expect(result.fondo).toBe('full')
+  })
+
+  it('debería devolver false si la pizarra no está guardada y no tiene fichas', () => {
+    const pizarra = crearPizarra('Pizarra 1', 'full')
+    const result = tieneCambios(pizarra, [])
+    expect(result).toBe(false)
+  })
+
+  it('debería devolver true si la pizarra no está guardada y tiene fichas', () => {
+    const pizarra = crearPizarra('Pizarra 1', 'full')
+    const ficha = crearFicha({ equipo: 'rival', rol: 'portero', dorsal: 1 })
+    pizarra.fichas.push(ficha)
+    const result = tieneCambios(pizarra, [])
+    expect(result).toBe(true)
+  })
+
+  it('debería devolver false si es igual que la guardada', () => {
+    const p1 = crearPizarra('Pizarra 1', 'full', new Date('2024-01-02T00:00:00.000Z'))
+    p1.fichas.push(crearFicha({ equipo: 'rival', rol: 'portero', dorsal: 1 }))
+    const guardadas = [p1]
+    const p2 = structuredClone(p1)
+    const result = tieneCambios(p2, guardadas)
+    expect(result).toBe(false)
+  })
+
+  it('debería devolver true si es distinta a la guardada', () => {
+    const p1 = crearPizarra('Pizarra 1', 'full', new Date('2024-01-02T00:00:00.000Z'))
+    p1.fichas.push(crearFicha({ equipo: 'rival', rol: 'portero', dorsal: 1 }))
+    const guardadas = [p1]
+    const result = tieneCambios({ ...p1, fondo: 'corner' }, guardadas)
+    expect(result).toBe(true)
   })
 })

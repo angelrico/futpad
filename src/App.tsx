@@ -17,6 +17,7 @@ function App() {
     nueva,
     abrir,
     eliminar,
+    sinGuardar,
   } = usePizarra()
   const { jugadores, eliminarJugador, agregarJugador, editarJugador } = usePlantilla()
 
@@ -32,6 +33,7 @@ function App() {
         idActiva={pizarra.id}
         onAbrir={abrir}
         onEliminar={eliminar}
+        sinGuardar={sinGuardar}
       />
       <SidePanel
         jugadores={jugadores}

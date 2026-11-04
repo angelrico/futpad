@@ -1,5 +1,10 @@
 import { useState } from 'react'
-import { ordenarPorActualizacion, crearPizarra, pizarraInicial } from '../lib/pizarras'
+import {
+  ordenarPorActualizacion,
+  crearPizarra,
+  pizarraInicial,
+  tieneCambios,
+} from '../lib/pizarras'
 import { crearFicha, crearFichaDeJugador } from '../lib/fichas'
 import type { DatosNuevaFicha, Fondo, Pizarra } from '../types/pizarra'
 import type { Jugador } from '../types/plantilla'
@@ -74,5 +79,6 @@ export function usePizarra() {
     nueva,
     abrir,
     eliminar,
+    sinGuardar: tieneCambios(pizarra, guardadas),
   }
 }

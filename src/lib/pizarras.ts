@@ -23,3 +23,9 @@ export function ordenarPorActualizacion(pizarras: Pizarra[]): Pizarra[] {
 export function pizarraInicial(pizarras: Pizarra[]): Pizarra {
   return ultimaActualizada(pizarras) ?? crearPizarra('Mi primera pizarra', 'full')
 }
+
+export function tieneCambios(pizarra: Pizarra, guardadas: Pizarra[]): boolean {
+  const guardada = guardadas.find((p) => p.id === pizarra.id)
+  if (!guardada) return pizarra.fichas.length > 0
+  return JSON.stringify(pizarra) !== JSON.stringify(guardada)
+}
