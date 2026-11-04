@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   ordenarPorActualizacion,
   crearPizarra,
@@ -13,6 +13,14 @@ import { listarPizarras, guardarPizarra, eliminarPizarra } from '../storage/repo
 export function usePizarra() {
   const [guardadas, setGuardadas] = useState<Pizarra[]>(() => listarPizarras())
   const [pizarra, setPizarra] = useState<Pizarra>(() => pizarraInicial(guardadas))
+  const sinGuardar = tieneCambios(pizarra, guardadas)
+
+  useEffect(() => {
+    if (!sinGuardar) return
+    const avisar = (e: BeforeUnloadEvent) => e.preventDefault()
+    window.addEventListener('beforeunload', avisar)
+    return () => window.removeEventListener('beforeunload', avisar)
+  }, [sinGuardar])
 
   const agregarFicha = (datos: DatosNuevaFicha) => {
     const nueva = crearFicha(datos)
@@ -79,6 +87,6 @@ export function usePizarra() {
     nueva,
     abrir,
     eliminar,
-    sinGuardar: tieneCambios(pizarra, guardadas),
+    sinGuardar,
   }
 }
