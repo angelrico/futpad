@@ -1,17 +1,32 @@
 import { useState } from 'react'
 import NewBoardDialog from './NewBoardDialog'
-import type { Fondo } from '../types/pizarra'
+import OpenBoardDialog from './OpenBoardDialog'
+import type { Fondo, Pizarra } from '../types/pizarra'
 
 interface HeaderProps {
   nombre: string
+  pizarras: Pizarra[]
+  idActiva: string
   onGuardar: () => void
   onCrear: (nombre: string, fondo: Fondo) => void
+  onAbrir: (id: string) => void
+  onEliminar: (id: string) => void
 }
 
-function Header({ nombre, onGuardar, onCrear }: HeaderProps) {
+function Header({
+  nombre,
+  onGuardar,
+  onCrear,
+  pizarras,
+  idActiva,
+  onAbrir,
+  onEliminar,
+}: HeaderProps) {
   const [dialogoNuevoAbierto, setDialogoNuevoAbierto] = useState(false)
+  const [dialogoAbrirAbierto, setDialogoAbrirAbierto] = useState(false)
 
   const abrirDialogoNuevo = () => setDialogoNuevoAbierto(true)
+  const abrirDialogoAbrir = () => setDialogoAbrirAbierto(true)
 
   return (
     <header className="flex items-center gap-4 border-b border-linea bg-white p-4 [grid-area:header]">
@@ -31,6 +46,7 @@ function Header({ nombre, onGuardar, onCrear }: HeaderProps) {
         <button
           type="button"
           className="rounded-full border-2 border-cesped-700 bg-tiza px-6 py-2 font-semibold text-cesped-700"
+          onClick={abrirDialogoAbrir}
         >
           Abrir
         </button>
@@ -44,6 +60,15 @@ function Header({ nombre, onGuardar, onCrear }: HeaderProps) {
       </div>
       {dialogoNuevoAbierto && (
         <NewBoardDialog onCerrar={() => setDialogoNuevoAbierto(false)} onCrear={onCrear} />
+      )}
+      {dialogoAbrirAbierto && (
+        <OpenBoardDialog
+          pizarras={pizarras}
+          idActiva={idActiva}
+          onAbrir={onAbrir}
+          onEliminar={onEliminar}
+          onCerrar={() => setDialogoAbrirAbierto(false)}
+        />
       )}
     </header>
   )
