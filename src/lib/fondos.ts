@@ -14,3 +14,5 @@ export const FONDOS: Record<Fondo, DatosFondo> = {
   half: { imagen: fondoMedio, proporcion: 74 / 58.5, etiqueta: 'Medio campo' },
   corner: { imagen: fondoCorner, proporcion: 74 / 39, etiqueta: 'Córner' },
 }
+
+export const LISTA_FONDOS: Fondo[] = ['full', 'half', 'corner']

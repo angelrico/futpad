@@ -2,6 +2,7 @@ import { useEffect, useId, useRef, useState } from 'react'
 import type { Fondo } from '../types/pizarra'
 import { X } from 'lucide-react'
 import { CLASE_CAMPO } from './estilos'
+import { FONDOS, LISTA_FONDOS } from '../lib/fondos'
 
 interface NewBoardDialogProps {
   onCerrar: () => void
@@ -13,7 +14,7 @@ function NewBoardDialog({ onCerrar, onCrear }: NewBoardDialogProps) {
   const id = useId()
 
   const [nombre, setNombre] = useState('')
-  const [fondo] = useState<Fondo>('full')
+  const [fondo, setFondo] = useState<Fondo>('full')
   const [error, setError] = useState<string | undefined>(undefined)
 
   useEffect(() => {
@@ -35,7 +36,7 @@ function NewBoardDialog({ onCerrar, onCrear }: NewBoardDialogProps) {
       ref={dialogoRef}
       aria-labelledby={`${id}-titulo`}
       onClose={onCerrar}
-      className="w-full max-w-md rounded-2xl p-6 backdrop:bg-tinta/50"
+      className="w-full max-w-lg rounded-2xl p-6 backdrop:bg-tinta/50"
     >
       <div className="flex items-center justify-between">
         <h2 className="font-display text-2xl font-bold text-cesped-900" id={`${id}-titulo`}>
@@ -77,6 +78,32 @@ function NewBoardDialog({ onCerrar, onCrear }: NewBoardDialogProps) {
             </p>
           )}
         </div>
+
+        <fieldset className="min-w-0">
+          <legend className="text-sm font-semibold text-cesped-900">Campo</legend>
+          <div className="mt-1 grid grid-cols-3 gap-3">
+            {LISTA_FONDOS.map((f) => (
+              <label
+                key={f}
+                className="flex cursor-pointer flex-col gap-2 rounded-xl border-2 border-linea p-2 has-checked:border-destacado-500 has-focus-visible:outline-2 has-focus-visible:outline-cesped-700"
+              >
+                <img src={FONDOS[f].imagen} alt="" className="h-16 w-full object-contain" />
+                <span className="flex items-center gap-2 text-sm">
+                  <input
+                    type="radio"
+                    name={`${id}-fondo`}
+                    value={f}
+                    checked={fondo === f}
+                    onChange={() => setFondo(f)}
+                    className="accent-cesped-700"
+                  />
+                  {FONDOS[f].etiqueta}
+                </span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
         <div className="flex justify-end gap-3">
           <button
             type="button"
