@@ -18,6 +18,7 @@ function App() {
     abrir,
     eliminar,
     sinGuardar,
+    cambiarFondo,
   } = usePizarra()
   const { jugadores, eliminarJugador, agregarJugador, editarJugador } = usePlantilla()
 
@@ -43,6 +44,8 @@ function App() {
         onAgregarJugador={agregarJugador}
         onEditarJugador={editarJugador}
         onColocarJugador={colocarJugador}
+        fondo={fondo}
+        onCambiarFondo={cambiarFondo}
       />
 
       <TacticalBoard fondo={fondo} fichas={fichas} onMoverFicha={moverFicha} />
