@@ -27,8 +27,23 @@ function Header({
   const [dialogoNuevoAbierto, setDialogoNuevoAbierto] = useState(false)
   const [dialogoAbrirAbierto, setDialogoAbrirAbierto] = useState(false)
 
-  const abrirDialogoNuevo = () => setDialogoNuevoAbierto(true)
-  const abrirDialogoAbrir = () => setDialogoAbrirAbierto(true)
+  const puedoContinuar = () => {
+    return (
+      !sinGuardar ||
+      window.confirm(`Hay cambios sin guardar en «${nombre}». Si continúas, se perderán.`)
+    )
+  }
+
+  const abrirDialogoNuevo = () => {
+    if (puedoContinuar()) {
+      setDialogoNuevoAbierto(true)
+    }
+  }
+  const abrirDialogoAbrir = () => {
+    if (puedoContinuar()) {
+      setDialogoAbrirAbierto(true)
+    }
+  }
 
   return (
     <header className="flex items-center gap-4 border-b border-linea bg-white p-4 [grid-area:header]">
