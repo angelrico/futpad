@@ -6,6 +6,8 @@ export const RADIO_FICHA = 22
 // Mismos valores que --color-tinta y blanco en index.css (Konva no puede leer clases de Tailwind)
 export const COLOR_DORSAL_OSCURO = '#13261a'
 export const COLOR_DORSAL_CLARO = '#ffffff'
+// Mismo valor que --color-destacado-500 en index.css
+export const COLOR_SELECCION = '#f5b72e'
 
 export function colorDorsal(color: string): string {
   const r = parseInt(color.slice(1, 3), 16)

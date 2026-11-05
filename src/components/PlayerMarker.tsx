@@ -1,5 +1,5 @@
 import { Circle, Group, Text } from 'react-konva'
-import { colorDorsal, RADIO_FICHA } from '../lib/fichas'
+import { COLOR_SELECCION, colorDorsal, RADIO_FICHA } from '../lib/fichas'
 import { limitarMovimiento } from '../lib/coordenadas'
 
 interface PlayerMarkerProps {
@@ -9,10 +9,22 @@ interface PlayerMarkerProps {
   color: string
   anchoCampo: number
   altoCampo: number
+  seleccionada: boolean
   onMover: (x: number, y: number) => void // posiciona al soltar en pixeles
+  onSeleccionar: () => void
 }
 
-function PlayerMarker({ x, y, dorsal, color, anchoCampo, altoCampo, onMover }: PlayerMarkerProps) {
+function PlayerMarker({
+  x,
+  y,
+  dorsal,
+  color,
+  anchoCampo,
+  altoCampo,
+  onMover,
+  seleccionada,
+  onSeleccionar,
+}: PlayerMarkerProps) {
   return (
     <Group
       x={x}
@@ -25,7 +37,12 @@ function PlayerMarker({ x, y, dorsal, color, anchoCampo, altoCampo, onMover }: P
         const { x, y } = e.target.position()
         onMover(x, y)
       }}
+      onClick={onSeleccionar}
+      onTap={onSeleccionar}
     >
+      {seleccionada && (
+        <Circle radius={RADIO_FICHA + 6} stroke={COLOR_SELECCION} strokeWidth={3} dash={[6, 4]} />
+      )}
       <Circle radius={RADIO_FICHA} fill={color} stroke="white" strokeWidth={2} />
       <Text
         text={dorsal.toString()}

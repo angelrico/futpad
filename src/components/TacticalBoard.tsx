@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import useImage from 'use-image'
 import { Image as KonvaImage, Layer, Stage } from 'react-konva'
 
@@ -20,6 +21,8 @@ function TacticalBoard({ fondo, fichas, onMoverFicha }: TacticalBoardProps) {
   const { ref: mainRef, ancho, alto } = useTamanoContenedor()
   const datosFondo = FONDOS[fondo]
   const [imagen] = useImage(datosFondo.imagen)
+  const [idSeleccionada, setIdSeleccionada] = useState<string | null>(null)
+
   const { ancho: anchoCampo, alto: altoCampo } = encajarCampo(ancho, alto, datosFondo.proporcion)
 
   const soltarFicha = (id: string, xPx: number, yPx: number) => {
@@ -34,7 +37,13 @@ function TacticalBoard({ fondo, fichas, onMoverFicha }: TacticalBoardProps) {
     >
       <Stage width={anchoCampo} height={altoCampo}>
         <Layer>
-          <KonvaImage image={imagen} width={anchoCampo} height={altoCampo} />
+          <KonvaImage
+            image={imagen}
+            width={anchoCampo}
+            height={altoCampo}
+            onClick={() => setIdSeleccionada(null)}
+            onTap={() => setIdSeleccionada(null)}
+          />
         </Layer>
         <Layer>
           {fichas.map((ficha) => {
@@ -49,6 +58,8 @@ function TacticalBoard({ fondo, fichas, onMoverFicha }: TacticalBoardProps) {
                 anchoCampo={anchoCampo}
                 altoCampo={altoCampo}
                 onMover={(x, y) => soltarFicha(ficha.id, x, y)}
+                seleccionada={idSeleccionada === ficha.id}
+                onSeleccionar={() => setIdSeleccionada(ficha.id)}
               />
             )
           })}
