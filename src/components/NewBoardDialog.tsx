@@ -2,7 +2,7 @@ import { useEffect, useId, useRef, useState } from 'react'
 import type { Fondo } from '../types/pizarra'
 import { X } from 'lucide-react'
 import { CLASE_CAMPO } from './estilos'
-import { FONDOS, LISTA_FONDOS } from '../lib/fondos'
+import BackgroundSelector from './BackgroundSelector'
 
 interface NewBoardDialogProps {
   onCerrar: () => void
@@ -79,30 +79,7 @@ function NewBoardDialog({ onCerrar, onCrear }: NewBoardDialogProps) {
           )}
         </div>
 
-        <fieldset className="min-w-0">
-          <legend className="text-sm font-semibold text-cesped-900">Campo</legend>
-          <div className="mt-1 grid grid-cols-3 gap-3">
-            {LISTA_FONDOS.map((f) => (
-              <label
-                key={f}
-                className="flex cursor-pointer flex-col gap-2 rounded-xl border-2 border-linea p-2 has-checked:border-destacado-500 has-focus-visible:outline-2 has-focus-visible:outline-cesped-700"
-              >
-                <img src={FONDOS[f].imagen} alt="" className="h-16 w-full object-contain" />
-                <span className="flex items-center gap-2 text-sm">
-                  <input
-                    type="radio"
-                    name={`${id}-fondo`}
-                    value={f}
-                    checked={fondo === f}
-                    onChange={() => setFondo(f)}
-                    className="accent-cesped-700"
-                  />
-                  {FONDOS[f].etiqueta}
-                </span>
-              </label>
-            ))}
-          </div>
-        </fieldset>
+        <BackgroundSelector valor={fondo} onCambiar={setFondo} />
 
         <div className="flex justify-end gap-3">
           <button
