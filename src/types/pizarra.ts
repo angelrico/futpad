@@ -34,3 +34,5 @@ export interface DatosGuardados {
   plantilla: Jugador[]
   pizarras: Pizarra[]
 }
+
+export type CambiosFicha = Partial<Pick<Ficha, 'dorsal' | 'color' | 'rol'>>

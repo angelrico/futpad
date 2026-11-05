@@ -6,7 +6,7 @@ import {
   tieneCambios,
 } from '../lib/pizarras'
 import { crearFicha, crearFichaDeJugador } from '../lib/fichas'
-import type { DatosNuevaFicha, Fondo, Pizarra } from '../types/pizarra'
+import type { DatosNuevaFicha, Fondo, Pizarra, CambiosFicha } from '../types/pizarra'
 import type { Jugador } from '../types/plantilla'
 import { listarPizarras, guardarPizarra, eliminarPizarra } from '../storage/repositorio'
 
@@ -44,6 +44,20 @@ export function usePizarra() {
         ? p
         : { ...p, fichas: [...p.fichas, fichaNueva] },
     )
+  }
+
+  const editarFicha = (id: string, cambios: CambiosFicha) => {
+    setPizarra((p) => ({
+      ...p,
+      fichas: p.fichas.map((ficha) => (ficha.id === id ? { ...ficha, ...cambios } : ficha)),
+    }))
+  }
+
+  const quitarFicha = (id: string) => {
+    setPizarra((p) => ({
+      ...p,
+      fichas: p.fichas.filter((ficha) => ficha.id !== id),
+    }))
   }
 
   const cambiarFondo = (fondo: Fondo) => setPizarra((p) => ({ ...p, fondo }))
@@ -88,5 +102,7 @@ export function usePizarra() {
     abrir,
     eliminar,
     sinGuardar,
+    editarFicha,
+    quitarFicha,
   }
 }
