@@ -1,4 +1,4 @@
-import type { Equipo, Ficha, Rol, DatosNuevaFicha } from '../types/pizarra'
+import type { Equipo, Ficha, Rol, DatosNuevaFicha, CambiosFicha } from '../types/pizarra'
 import type { Jugador } from '../types/plantilla'
 
 export const RADIO_FICHA = 22
@@ -45,4 +45,8 @@ export function crearFichaDeJugador(jugador: Jugador): Ficha {
     jugadorId: jugador.id,
     nombre: jugador.nombre,
   }
+}
+
+export function cambiosDeRol(equipo: Equipo, rol: Rol): CambiosFicha {
+  return { rol, color: COLORES_FICHA[equipo][rol] }
 }

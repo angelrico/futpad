@@ -6,6 +6,7 @@ import {
   COLOR_DORSAL_OSCURO,
   COLORES_FICHA,
   crearFichaDeJugador,
+  cambiosDeRol,
 } from './fichas'
 
 describe('fichas', () => {
@@ -70,5 +71,11 @@ describe('fichas', () => {
     const jugador = { id: '123', nombre: 'Juan', dorsal: 10, esPortero: false }
     const ficha = crearFichaDeJugador(jugador)
     expect(ficha.id).not.toBe(jugador.id)
+  })
+
+  it('debería dar los valores por defecto de portero rival al cambiar el rol a portero', () => {
+    const cambios = cambiosDeRol('rival', 'portero')
+    expect(cambios.rol).toBe('portero')
+    expect(cambios.color).toBe(COLORES_FICHA.rival.portero)
   })
 })
