@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import useImage from 'use-image'
 import { Image as KonvaImage, Layer, Stage } from 'react-konva'
+import MarkerCard from './MarkerCard'
 
 import { useTamanoContenedor } from '../hooks/useTamanoContenedor'
 
-import type { Ficha, Fondo } from '../types/pizarra'
+import type { CambiosFicha, Ficha, Fondo } from '../types/pizarra'
 
 import PlayerMarker from './PlayerMarker'
 import { FONDOS } from '../lib/fondos'
@@ -15,13 +16,22 @@ interface TacticalBoardProps {
   fondo: Fondo
   fichas: Ficha[]
   onMoverFicha: (id: string, x: number, y: number) => void
+  onEditarFicha: (id: string, cambios: CambiosFicha) => void
+  onQuitarFicha: (id: string) => void
 }
 
-function TacticalBoard({ fondo, fichas, onMoverFicha }: TacticalBoardProps) {
+function TacticalBoard({
+  fondo,
+  fichas,
+  onMoverFicha,
+  onEditarFicha,
+  onQuitarFicha,
+}: TacticalBoardProps) {
   const { ref: mainRef, ancho, alto } = useTamanoContenedor()
   const datosFondo = FONDOS[fondo]
   const [imagen] = useImage(datosFondo.imagen)
   const [idSeleccionada, setIdSeleccionada] = useState<string | null>(null)
+  const seleccionada = fichas.find((ficha) => ficha.id === idSeleccionada)
 
   const { ancho: anchoCampo, alto: altoCampo } = encajarCampo(ancho, alto, datosFondo.proporcion)
 
@@ -32,7 +42,7 @@ function TacticalBoard({ fondo, fichas, onMoverFicha }: TacticalBoardProps) {
 
   return (
     <main
-      className="flex min-h-0 min-w-0 touch-none items-center justify-center overflow-hidden p-4 [grid-area:main]"
+      className="relative flex min-h-0 min-w-0 touch-none items-center justify-center overflow-hidden p-4 [grid-area:main]"
       ref={mainRef}
     >
       <Stage width={anchoCampo} height={altoCampo}>
@@ -65,6 +75,15 @@ function TacticalBoard({ fondo, fichas, onMoverFicha }: TacticalBoardProps) {
           })}
         </Layer>
       </Stage>
+      {seleccionada && (
+        <MarkerCard
+          key={seleccionada.id}
+          ficha={seleccionada}
+          onEditar={(cambios) => onEditarFicha(seleccionada.id, cambios)}
+          onQuitar={() => onQuitarFicha(seleccionada.id)}
+          onCerrar={() => setIdSeleccionada(null)}
+        />
+      )}
     </main>
   )
 }
