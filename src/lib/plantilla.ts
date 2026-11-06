@@ -14,18 +14,15 @@ export function validarJugador(
     (jugador) => jugador.dorsal === dorsal && jugador.id !== idEditado,
   )
 
-  if (nombre === '') {
-    errores.nombre = 'El nombre es obligatorio'
-  }
-
-  if (textoDorsal === '') {
-    errores.dorsal = 'El dorsal es obligatorio'
-  } else if (!Number.isInteger(dorsal)) {
-    errores.dorsal = 'El dorsal debe ser un número entero'
-  } else if (dorsal < 1 || dorsal > 99) {
-    errores.dorsal = 'El dorsal debe estar entre 1 y 99'
+  const errorDorsal = validarDorsal(textoDorsal)
+  if (errorDorsal) {
+    errores.dorsal = errorDorsal
   } else if (jugadorRepetido) {
     errores.dorsal = `Ya lo lleva ${jugadorRepetido.nombre}`
+  }
+
+  if (nombre === '') {
+    errores.nombre = 'El nombre es obligatorio'
   }
 
   return errores
@@ -36,4 +33,22 @@ export function crearJugador(datos: DatosJugador): Jugador {
     id: crypto.randomUUID(),
     ...datos,
   }
+}
+
+export function validarDorsal(texto: string): string | undefined {
+  const limpio = texto.trim()
+  if (limpio === '') {
+    return 'El dorsal es obligatorio'
+  }
+
+  const dorsal = Number(limpio)
+  if (!Number.isInteger(dorsal)) {
+    return 'El dorsal debe ser un número entero'
+  }
+
+  if (dorsal < 1 || dorsal > 99) {
+    return 'El dorsal debe estar entre 1 y 99'
+  }
+
+  return undefined
 }

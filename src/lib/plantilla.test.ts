@@ -63,12 +63,12 @@ describe('validarJugador', () => {
       [{ id: '0', nombre: 'Jugador', dorsal: 10, esPortero: false }],
       '0',
     )
-    expect(errores).toEqual({})
+    expect(errores).toStrictEqual({})
   })
 
   it('debería no dar errores con datos válidos', () => {
     const errores = validarJugador({ nombre: 'Jugador', dorsal: '10' }, [])
-    expect(errores).toEqual({})
+    expect(errores).toStrictEqual({})
   })
 })
 
