@@ -39,4 +39,9 @@
   body {
     @apply bg-tiza font-sans text-tinta antialiased;
   }
+
+  :focus-visible {
+    outline: 2px solid var(--color-cesped-700);
+    outline-offset: 2px;
+  }
 }
