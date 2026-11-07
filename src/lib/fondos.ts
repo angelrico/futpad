@@ -10,8 +10,8 @@ interface DatosFondo {
 }
 
 export const FONDOS: Record<Fondo, DatosFondo> = {
-  full: { imagen: fondoEntero, proporcion: 111 / 74, etiqueta: 'Campo entero' },
-  half: { imagen: fondoMedio, proporcion: 74 / 58.5, etiqueta: 'Medio campo' },
+  full: { imagen: fondoEntero, proporcion: 111 / 74, etiqueta: 'Entero' },
+  half: { imagen: fondoMedio, proporcion: 74 / 58.5, etiqueta: 'Medio' },
   corner: { imagen: fondoCorner, proporcion: 74 / 39, etiqueta: 'Córner' },
 }
 
