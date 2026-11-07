@@ -36,7 +36,7 @@ function NewBoardDialog({ onCerrar, onCrear }: NewBoardDialogProps) {
       ref={dialogoRef}
       aria-labelledby={`${id}-titulo`}
       onClose={onCerrar}
-      className="w-full max-w-lg rounded-2xl p-6 backdrop:bg-tinta/50"
+      className="m-auto w-full max-w-lg rounded-2xl p-6 backdrop:bg-tinta/50"
     >
       <div className="flex items-center justify-between">
         <h2 className="font-display text-2xl font-bold text-cesped-900" id={`${id}-titulo`}>

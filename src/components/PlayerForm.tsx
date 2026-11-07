@@ -43,7 +43,7 @@ function PlayerForm({ jugador, onCerrar, jugadores, onGuardar }: PlayerFormProps
   return (
     <dialog
       ref={dialogoRef}
-      className="w-full max-w-md rounded-2xl p-6 backdrop:bg-tinta/50"
+      className="m-auto w-full max-w-md rounded-2xl p-6 backdrop:bg-tinta/50"
       onClose={onCerrar}
       aria-labelledby={`${id}-titulo`}
     >
