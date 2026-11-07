@@ -1,32 +1,58 @@
-# React + TypeScript + Vite
+# Futpad
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Pizarra táctica de fútbol para entrenadores, pensada para usarla en una tablet durante los entrenamientos y los partidos. Permite gestionar la plantilla, colocar a los jugadores en el campo, añadir rivales y guardar varias pizarras.
 
-Currently, two official plugins are available:
+<!-- ![Pantalla principal de Futpad](docs/capturas/principal.png) -->
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Funcionalidades
 
-## React Compiler
+- **Plantilla:** alta, edición y borrado de jugadores, con validación del nombre y del dorsal.
+- **Campo:** tres fondos (entero, medio campo y córner), que se pueden cambiar en cualquier momento.
+- **Fichas:** jugadores de la plantilla y rivales, que se arrastran con el dedo, el lápiz o el ratón.
+- **Edición de fichas:** dorsal, color y rol (campo o portero), o quitarlas del campo.
+- **Pizarras:** crear, guardar, abrir y eliminar, con aviso de cambios sin guardar.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Los datos se guardan en el navegador (`localStorage`); no hay servidor ni cuentas de usuario.
 
-## Expanding the Oxlint configuration
+## Tecnologías
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+React 19 · TypeScript · Vite · Tailwind CSS v4 · Konva (React Konva) · Vitest + Testing Library
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+## Puesta en marcha
+
+Requisitos: Node.js 20.19 o superior y npm.
+
+```bash
+npm install
+npm run dev
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+La aplicación se abre en `http://localhost:5173`.
+
+| Comando              | Qué hace                                                      |
+| -------------------- | ------------------------------------------------------------- |
+| `npm run dev`        | Servidor de desarrollo                                        |
+| `npm run dev:tablet` | Servidor de desarrollo accesible desde la red local por HTTPS |
+| `npm test`           | Tests (`npm test -- --run` para ejecutarlos una sola vez)     |
+| `npm run build`      | Build de producción en `dist/`                                |
+| `npm run preview`    | Sirve el build de producción                                  |
+| `npm run lint`       | Análisis del código con oxlint                                |
+| `npm run format`     | Formatea el código con Prettier                               |
+
+### Abrirla desde una tablet
+
+Fuera de `localhost`, la aplicación necesita HTTPS. Con `npm run dev:tablet` se sirve por HTTPS con un certificado de prueba: abre en la tablet la dirección **Network** que aparece en la terminal y acepta el aviso de seguridad del navegador.
+
+Navegadores compatibles: versiones actuales de Chrome, Edge, Firefox y Safari (iPadOS 16 o superior).
+
+## Estructura
+
+```text
+src/
+├── components/   Interfaz (barra superior, panel, campo, diálogos, tarjeta de ficha)
+├── hooks/        Estado de la aplicación
+├── lib/          Funciones puras y reglas de negocio
+├── storage/      Acceso a localStorage
+├── types/        Tipos TypeScript
+└── assets/       Fondos del campo (SVG)
+```
