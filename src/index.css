@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-@source not '../Readme.md';
+@source not '../README.md';
 
 /* Identidad visual de Futpad (paleta validada WCAG AA, ver mockups/README.md) */
 @theme {
