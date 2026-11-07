@@ -1,5 +1,6 @@
 import { Pencil, Trash2 } from 'lucide-react'
 import type { Jugador } from '../types/plantilla'
+import { CLASE_BOTON_ICONO } from './estilos'
 
 interface SquadListProps {
   jugadores: Jugador[]
@@ -69,7 +70,7 @@ function SquadList({
                     <button
                       type="button"
                       aria-label={`Editar a ${jugador.nombre}`}
-                      className="text-tenue focus-visible:outline-2"
+                      className={CLASE_BOTON_ICONO}
                       onClick={() => onEditar(jugador)}
                     >
                       <Pencil size={18} />
@@ -77,7 +78,7 @@ function SquadList({
                     <button
                       type="button"
                       aria-label={`Eliminar a ${jugador.nombre}`}
-                      className="text-tenue focus-visible:outline-2"
+                      className={CLASE_BOTON_ICONO}
                       onClick={() => onEliminar(jugador.id)}
                     >
                       <Trash2 size={18} />

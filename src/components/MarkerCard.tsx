@@ -3,7 +3,7 @@ import type { CambiosFicha, Ficha, Rol } from '../types/pizarra'
 import { X, Trash2 } from 'lucide-react'
 import { validarDorsal } from '../lib/plantilla'
 import { cambiosDeRol } from '../lib/fichas'
-import { CLASE_CAMPO } from './estilos'
+import { CLASE_BOTON_ICONO, CLASE_CAMPO } from './estilos'
 
 interface MarkerCardProps {
   ficha: Ficha
@@ -44,12 +44,7 @@ function MarkerCard({ ficha, onEditar, onQuitar, onCerrar }: MarkerCardProps) {
             {ficha.jugadorId && ' · de la plantilla'}
           </p>
         </div>
-        <button
-          type="button"
-          aria-label="Cerrar"
-          className="text-tenue focus-visible:outline-2"
-          onClick={onCerrar}
-        >
+        <button type="button" aria-label="Cerrar" className={CLASE_BOTON_ICONO} onClick={onCerrar}>
           <X size={18} />
         </button>
       </div>

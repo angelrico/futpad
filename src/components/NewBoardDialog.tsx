@@ -1,7 +1,7 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import type { Fondo } from '../types/pizarra'
 import { X } from 'lucide-react'
-import { CLASE_CAMPO } from './estilos'
+import { CLASE_BOTON_ICONO, CLASE_CAMPO } from './estilos'
 import BackgroundSelector from './BackgroundSelector'
 
 interface NewBoardDialogProps {
@@ -45,7 +45,7 @@ function NewBoardDialog({ onCerrar, onCrear }: NewBoardDialogProps) {
         <button
           type="button"
           aria-label="Cerrar"
-          className="text-tenue focus-visible:outline-2"
+          className={CLASE_BOTON_ICONO}
           onClick={() => dialogoRef.current?.close()}
         >
           <X size={18} />

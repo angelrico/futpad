@@ -2,6 +2,7 @@ import type { Pizarra } from '../types/pizarra'
 import { useEffect, useId, useRef } from 'react'
 import { Trash2, X } from 'lucide-react'
 import { FONDOS } from '../lib/fondos'
+import { CLASE_BOTON_ICONO } from './estilos'
 
 interface OpenBoardDialogProps {
   pizarras: Pizarra[]
@@ -52,7 +53,7 @@ function OpenBoardDialog({
         <button
           type="button"
           aria-label="Cerrar"
-          className="text-tenue focus-visible:outline-2"
+          className={CLASE_BOTON_ICONO}
           onClick={() => dialogoRef.current?.close()}
         >
           <X size={18} />

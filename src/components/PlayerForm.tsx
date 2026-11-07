@@ -2,7 +2,7 @@ import { useEffect, useRef, useId, useState } from 'react'
 import type { DatosJugador, Jugador, JugadorFormulario, ErroresJugador } from '../types/plantilla'
 import { X } from 'lucide-react'
 import { validarJugador } from '../lib/plantilla'
-import { CLASE_CAMPO } from './estilos'
+import { CLASE_BOTON_ICONO, CLASE_CAMPO } from './estilos'
 
 interface PlayerFormProps {
   jugador: Jugador | null
@@ -54,7 +54,7 @@ function PlayerForm({ jugador, onCerrar, jugadores, onGuardar }: PlayerFormProps
         <button
           type="button"
           aria-label="Cerrar"
-          className="text-tenue focus-visible:outline-2"
+          className={CLASE_BOTON_ICONO}
           onClick={() => dialogoRef.current?.close()}
         >
           <X size={18} />
