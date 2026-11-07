@@ -47,7 +47,10 @@ function Header({
 
   return (
     <header className="flex items-center gap-4 border-b border-linea bg-white p-4 [grid-area:header]">
-      <h1 className="shrink-0 font-display text-3xl font-bold text-cesped-900">Futpad</h1>
+      <h1 className="flex shrink-0 items-center gap-2 font-display text-3xl font-bold text-cesped-900">
+        <img src="/logo.svg" alt="" className="size-8" />
+        Futpad
+      </h1>
 
       <span className="min-w-0 truncate border-l border-linea py-1 pl-4 font-semibold text-cesped-900">
         {nombre}
